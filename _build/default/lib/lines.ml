@@ -1,6 +1,28 @@
 
 type point = {x: float; y: float}
+
+let new_point x y = 
+  {x = x; y = y}
+
 type line = {points: point list}
+
+let build_line xs ys = 
+  if (List.length xs) != (List.length ys) then
+    failwith "xs and ys are different lengths";
+
+  List.map2 new_point xs ys
+
+let print_point p =
+  Printf.printf "Point (%.2f, %.2f)\n" p.x p.y
+
+
+let%expect_test "build line test" =
+  let xs = [0.0; 1.0; 2.0] in 
+  let ys = [2.0; 3.0; 3.0] in
+  let lines = build_line xs ys in
+  List.iter (fun item -> print_point item) lines;
+  [%expect {||}]
+
 
 let rec get_last_element lst = 
   match lst with 
@@ -95,4 +117,4 @@ let max_steepness line sample_width =
 let%expect_test  "max steepness test`" = 
   let topLine = [{ x = 0.0; y = 4.0 }; { x = 1.0; y = 3.0 }; { x = 2.0; y = 4.0 }] in
   Printf.printf "%.2f" (max_steepness topLine 1.0);
-  [%expect {| 4.00 |}]
+  [%expect {| 1.00 |}]

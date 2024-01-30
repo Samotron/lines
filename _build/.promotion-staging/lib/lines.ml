@@ -1,6 +1,31 @@
 
 type point = {x: float; y: float}
+
+let new_point x y = 
+  {x = x; y = y}
+
 type line = {points: point list}
+
+let build_line xs ys = 
+  if (List.length xs) != (List.length ys) then
+    failwith "xs and ys are different lengths";
+
+  List.map2 new_point xs ys
+
+let print_point p =
+  Printf.printf "Point (%.2f, %.2f)\n" p.x p.y
+
+
+let%expect_test "build line test" =
+  let xs = [0.0; 1.0; 2.0] in 
+  let ys = [2.0; 3.0; 3.0] in
+  let lines = build_line xs ys in
+  List.iter (fun item -> print_point item) lines;
+  [%expect {|
+    Point (0.00, 2.00)
+    Point (1.00, 3.00)
+    Point (2.00, 3.00) |}]
+
 
 let rec get_last_element lst = 
   match lst with 
