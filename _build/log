@@ -1,0 +1,35 @@
+# dune runtest --auto-promote
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /home/samotron/.cache/dune/db
+# Workspace root: /home/samotron/Dev/lines
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; installed_env =
+#      map
+#        { "INSIDE_DUNE" : "/home/samotron/Dev/lines/_build/default"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; instrument_with = []
+#  }
+$ /nix/store/94mnjqa1xjjjgq50jsvgsawahyxdj6v7-ocaml-4.14.1/bin/ocamlc.opt -config > /tmp/dune_71b735_output
+$ (cd _build/.sandbox/56aa76e16e7b7d2dbed567f196482cb8/default/lib && .lines.inline-tests/inline_test_runner_lines.exe inline-test-runner lines -source-tree-root .. -diff-cmd -)
+$ /home/samotron/.nix-profile/bin/git --no-pager diff --no-index --color=always -u _build/default/lib/lines.ml _build/.sandbox/56aa76e16e7b7d2dbed567f196482cb8/default/lib/lines.ml.corrected
+> diff --git a/_build/default/lib/lines.ml b/_build/.sandbox/56aa76e16e7b7d2dbed567f196482cb8/default/lib/lines.ml.corrected
+> index f0a7be1..9f8f37f 100644
+> --- a/_build/default/lib/lines.ml
+> +++ b/_build/.sandbox/56aa76e16e7b7d2dbed567f196482cb8/default/lib/lines.ml.corrected
+> @@ -95,4 +95,4 @@ let max_steepness line sample_width =
+>  let%expect_test  "max steepness test`" = 
+>    let topLine = [{ x = 0.0; y = 4.0 }; { x = 1.0; y = 3.0 }; { x = 2.0; y = 4.0 }] in
+>    Printf.printf "%.2f" (max_steepness topLine 1.0);
+> -  [%expect {| 4.00 |}]
+> +  [%expect {| 1.00 |}]
+[1]
